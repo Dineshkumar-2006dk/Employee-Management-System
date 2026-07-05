@@ -18,11 +18,11 @@ public class CorsConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**") // Match all endpoints
-                        .allowedOriginPatterns("*") // Allow all origins (standard for public portfolio projects)
+                        .allowedOrigins("*") // Allow all origins
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")
                         .exposedHeaders("Authorization")
-                        .allowCredentials(true)
+                        .allowCredentials(false)
                         .maxAge(3600); // 1 hour caching of preflight requests
             }
         };
