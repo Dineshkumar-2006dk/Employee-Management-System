@@ -1,5 +1,5 @@
-// API Base URL (loads from localStorage for cloud routing, falls back to host origin)
-const API_BASE = localStorage.getItem('ems_api_base_url') || window.location.origin;
+// API Base URL (loads from localStorage for cloud routing, falls back to your Render backend URL)
+const API_BASE = localStorage.getItem('ems_api_base_url') || 'https://employee-management-system-tz8t.onrender.com';
 
 // Global confirmation callback
 let confirmCallback = null;
