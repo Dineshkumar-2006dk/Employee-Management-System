@@ -28,7 +28,7 @@ public class Employee {
     @JoinColumn(name = "dept_id", nullable = true)
     private Department department;
 
-    @Column(nullable = false)
+    @Column(name = "job_position", nullable = false)
     private String position;
 
     @Column(name = "joining_date", nullable = false)
