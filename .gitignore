@@ -1,0 +1,36 @@
+# Maven ignore
+**/target/
+**.jar
+**.war
+**.ear
+**.class
+
+# Eclipse ignore
+.metadata
+.classpath
+.project
+.settings/
+
+# IntelliJ IDEA ignore
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# VS Code ignore
+.vscode/
+
+# Local configuration & credentials
+*.properties.local
+*.properties.dev
+**/application-local.properties
+
+# OS files
+Thumbs.db
+.DS_Store
+desktop.ini
+
+# Logs
+*.log
+logs/

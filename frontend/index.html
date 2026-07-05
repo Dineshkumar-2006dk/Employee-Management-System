@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EMS Admin Portal - Dashboard</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="app-body">
+    
+    <!-- App Shell Wrapper -->
+    <div class="app-wrapper">
+        
+        <!-- Sidebar Navigation -->
+        <aside class="app-sidebar" id="app-sidebar">
+            <div class="sidebar-brand">
+                <i class="fa-solid fa-people-roof"></i>
+                <span>EMS Admin</span>
+            </div>
+            
+            <ul class="sidebar-menu">
+                <li class="menu-item active" data-view="dashboard-view" onclick="switchView('dashboard-view')">
+                    <a><i class="fa-solid fa-chart-pie"></i><span>Dashboard</span></a>
+                </li>
+                <li class="menu-item" data-view="employees-view" onclick="switchView('employees-view')">
+                    <a><i class="fa-solid fa-users"></i><span>Employees</span></a>
+                </li>
+                <li class="menu-item" data-view="departments-view" onclick="switchView('departments-view')">
+                    <a><i class="fa-solid fa-sitemap"></i><span>Departments</span></a>
+                </li>
+                <li class="menu-item" data-view="salaries-view" onclick="switchView('salaries-view')">
+                    <a><i class="fa-solid fa-money-check-dollar"></i><span>Salaries</span></a>
+                </li>
+                <li class="menu-item" data-view="developer-view" onclick="switchView('developer-view')">
+                    <a><i class="fa-solid fa-user-astronaut"></i><span>Developer</span></a>
+                </li>
+            </ul>
+            
+            <div class="sidebar-footer">
+                <button class="logout-btn" onclick="logoutAdmin()">
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                    <span>Logout</span>
+                </button>
+            </div>
+        </aside>
+        
+        <!-- App Main Content Area -->
+        <div class="app-container" id="app-container">
+            
+            <!-- Header -->
+            <header class="app-header">
+                <div class="header-left">
+                    <button class="menu-toggle" id="menu-toggle" aria-label="Toggle Navigation Menu">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                    <div class="header-title">
+                        <h1 id="view-title">Dashboard Overview</h1>
+                    </div>
+                </div>
+                
+                <div class="header-right">
+                    <div class="user-profile-badge">
+                        <div class="user-avatar" id="avatar-letters">AD</div>
+                        <span class="user-name" id="user-display-name">Admin</span>
+                    </div>
+                </div>
+            </header>
+            
+            <!-- Toast Notification Container -->
+            <div id="toast-container" class="toast-container"></div>
+            
+            <!-- Main Scrollable Content -->
+            <main class="app-content">
+                
+                <!-- ========================================== -->
+                <!-- VIEW 1: DASHBOARD VIEW                     -->
+                <!-- ========================================== -->
+                <section id="dashboard-view" class="content-view active">
+                    <!-- Dashboard Statistics Grid -->
+                    <div class="dashboard-grid">
+                        <div class="stat-card employees">
+                            <div class="stat-info">
+                                <h3>Total Employees</h3>
+                                <div class="stat-value" id="card-total-employees">0</div>
+                            </div>
+                            <div class="stat-icon">
+                                <i class="fa-solid fa-users"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card departments">
+                            <div class="stat-info">
+                                <h3>Departments</h3>
+                                <div class="stat-value" id="card-total-departments">0</div>
+                            </div>
+                            <div class="stat-icon">
+                                <i class="fa-solid fa-sitemap"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card salary-stats">
+                            <div class="stat-info">
+                                <h3>Total Payroll Cost</h3>
+                                <div class="stat-value" id="card-total-payroll">$0</div>
+                            </div>
+                            <div class="stat-icon">
+                                <i class="fa-solid fa-money-bill-trend-up"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Dashboard Rows -->
+                    <div class="analytics-row">
+                        <!-- Left Panel: Recent Employees -->
+                        <div class="dashboard-panel">
+                            <div class="panel-header">
+                                <h2>Recent Employees</h2>
+                                <a href="#" onclick="switchView('employees-view')">View All</a>
+                            </div>
+                            <div class="table-container">
+                                <table class="custom-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Employee</th>
+                                            <th>Position</th>
+                                            <th>Joining Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="recent-employees-tbody">
+                                        <tr>
+                                            <td colspan="3" class="empty-state">Loading recent records...</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        
+                        <!-- Right Panel: Quick Statistics / Department Payroll Distribution -->
+                        <div class="dashboard-panel">
+                            <div class="panel-header">
+                                <h2>Department Quick-List</h2>
+                                <a href="#" onclick="switchView('departments-view')">Manage</a>
+                            </div>
+                            <ul class="quick-list" id="quick-departments-list">
+                                <li class="empty-state">Loading departments...</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- ========================================== -->
+                <!-- VIEW 2: EMPLOYEES VIEW                     -->
+                <!-- ========================================== -->
+                <section id="employees-view" class="content-view">
+                    <div class="module-header">
+                        <div class="module-actions">
+                            <div class="search-box">
+                                <input type="text" id="employee-search" placeholder="Search by name or Employee ID..." oninput="handleEmployeeSearch()">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" onclick="openAddEmployeeModal()">
+                            <i class="fa-solid fa-plus"></i> Add Employee
+                        </button>
+                    </div>
+                    
+                    <div class="table-container">
+                        <table class="custom-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Employee Details</th>
+                                    <th>Phone</th>
+                                    <th>Department</th>
+                                    <th>Job Position</th>
+                                    <th>Joining Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="employees-tbody">
+                                <!-- Loaded dynamically via AJAX -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+                
+                <!-- ========================================== -->
+                <!-- VIEW 3: DEPARTMENTS VIEW                   -->
+                <!-- ========================================== -->
+                <section id="departments-view" class="content-view">
+                    <div class="module-header">
+                        <div style="flex-grow: 1;"></div>
+                        <button class="btn btn-primary" onclick="openAddDepartmentModal()">
+                            <i class="fa-solid fa-plus"></i> Add Department
+                        </button>
+                    </div>
+                    
+                    <div class="table-container">
+                        <table class="custom-table">
+                            <thead>
+                                <tr>
+                                    <th>Dept ID</th>
+                                    <th>Department Name</th>
+                                    <th>Department Manager</th>
+                                    <th>Employee Count</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="departments-tbody">
+                                <!-- Loaded dynamically via AJAX -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+                
+                <!-- ========================================== -->
+                <!-- VIEW 4: SALARIES VIEW                      -->
+                <!-- ========================================== -->
+                <section id="salaries-view" class="content-view">
+                    <div class="table-container">
+                        <table class="custom-table">
+                            <thead>
+                                <tr>
+                                    <th>Salary ID</th>
+                                    <th>Employee Name</th>
+                                    <th>Basic Salary</th>
+                                    <th>Bonus</th>
+                                    <th>Total Salary</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="salaries-tbody">
+                                <!-- Loaded dynamically via AJAX -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+                
+                <!-- ========================================== -->
+                <!-- VIEW 5: DEVELOPER VIEW (PORTFOLIO SECTION) -->
+                <!-- ========================================== -->
+                <section id="developer-view" class="content-view">
+                    <div class="dev-profile-container">
+                        <div class="dev-card">
+                            <div class="dev-avatar-area">
+                                <div class="dev-avatar-glow">
+                                    <div class="dev-avatar">DS</div>
+                                </div>
+                                <span class="dev-badge-role">Java Developer</span>
+                            </div>
+                            
+                            <div class="dev-info-area">
+                                <h2>DINESHKUMAR S</h2>
+                                <div class="dev-title-tag">Java Full Stack Developer</div>
+                                
+                                <ul class="dev-meta-list">
+                                    <li class="dev-meta-item">
+                                        <i class="fa-solid fa-graduation-cap"></i>
+                                        <span><strong>Degree:</strong> Bachelor of Engineering (B.E)</span>
+                                    </li>
+                                    <li class="dev-meta-item">
+                                        <i class="fa-solid fa-school"></i>
+                                        <span><strong>College:</strong> Mailam Engineering College</span>
+                                    </li>
+                                    <li class="dev-meta-item">
+                                        <i class="fa-solid fa-microchip"></i>
+                                        <span><strong>Department:</strong> Electronics and Communication Engineering (ECE)</span>
+                                    </li>
+                                    <li class="dev-meta-item">
+                                        <i class="fa-solid fa-calendar-days"></i>
+                                        <span><strong>Batch:</strong> 2023 - 2027</span>
+                                    </li>
+                                </ul>
+                                
+                                <div class="skills-heading">Technical Skills</div>
+                                <div class="dev-skills-wrapper">
+                                    <span class="skill-badge" style="animation-delay: 0.1s">Java</span>
+                                    <span class="skill-badge" style="animation-delay: 0.2s">Spring Boot</span>
+                                    <span class="skill-badge" style="animation-delay: 0.3s">MySQL</span>
+                                    <span class="skill-badge" style="animation-delay: 0.4s">REST API</span>
+                                    <span class="skill-badge" style="animation-delay: 0.5s">HTML</span>
+                                    <span class="skill-badge" style="animation-delay: 0.6s">CSS</span>
+                                    <span class="skill-badge" style="animation-delay: 0.7s">JavaScript</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+            </main>
+        </div>
+    </div>
+    
+    <!-- ==========================================================================
+         MODAL WINDOWS & POPUP FORMS
+         ========================================================================== -->
+         
+    <!-- EMPLOYEE ADD/EDIT MODAL -->
+    <div class="modal-overlay" id="employee-modal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3 id="employee-modal-title">Add New Employee</h3>
+                <button class="modal-close" onclick="closeModal('employee-modal')"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <form id="employee-form" onsubmit="saveEmployee(event)">
+                <input type="hidden" id="emp-form-id">
+                <div class="modal-body">
+                    <div class="input-group">
+                        <label for="emp-name"><i class="fa-solid fa-signature"></i> Full Name</label>
+                        <input type="text" id="emp-name" placeholder="Enter first and last name" required>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="input-group">
+                            <label for="emp-email"><i class="fa-solid fa-envelope"></i> Email Address</label>
+                            <input type="email" id="emp-email" placeholder="example@org.com" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="emp-phone"><i class="fa-solid fa-phone"></i> Phone Number</label>
+                            <input type="tel" id="emp-phone" placeholder="e.g. +91 9876543210" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="input-group">
+                            <label for="emp-department"><i class="fa-solid fa-sitemap"></i> Department</label>
+                            <select id="emp-department" required>
+                                <option value="">Select Department</option>
+                                <!-- Loaded dynamically -->
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label for="emp-position"><i class="fa-solid fa-briefcase"></i> Job Position</label>
+                            <input type="text" id="emp-position" placeholder="e.g. Software Engineer" required>
+                        </div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="emp-date"><i class="fa-solid fa-calendar-day"></i> Joining Date</label>
+                        <input type="date" id="emp-date" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('employee-modal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="emp-submit-btn">Save Employee</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- DEPARTMENT ADD/EDIT MODAL -->
+    <div class="modal-overlay" id="department-modal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3 id="department-modal-title">Add Department</h3>
+                <button class="modal-close" onclick="closeModal('department-modal')"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <form id="department-form" onsubmit="saveDepartment(event)">
+                <input type="hidden" id="dept-form-id">
+                <div class="modal-body">
+                    <div class="input-group">
+                        <label for="dept-name"><i class="fa-solid fa-building"></i> Department Name</label>
+                        <input type="text" id="dept-name" placeholder="e.g. Engineering" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="dept-manager"><i class="fa-solid fa-user-tie"></i> Manager Name</label>
+                        <input type="text" id="dept-manager" placeholder="Enter manager's full name" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('department-modal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="dept-submit-btn">Save Department</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- SALARY ADD/EDIT MODAL -->
+    <div class="modal-overlay" id="salary-modal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3 id="salary-modal-title">Edit Employee Salary</h3>
+                <button class="modal-close" onclick="closeModal('salary-modal')"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <form id="salary-form" onsubmit="saveSalary(event)">
+                <input type="hidden" id="salary-form-id">
+                <input type="hidden" id="salary-form-emp-id">
+                <div class="modal-body">
+                    <div class="input-group">
+                        <label><i class="fa-solid fa-user"></i> Employee</label>
+                        <input type="text" id="salary-emp-name" readonly style="background-color: rgba(255,255,255,0.02); cursor: not-allowed; border-color: rgba(255,255,255,0.05);">
+                    </div>
+                    <div class="form-row">
+                        <div class="input-group">
+                            <label for="salary-basic"><i class="fa-solid fa-dollar-sign"></i> Basic Salary ($)</label>
+                            <input type="number" step="0.01" id="salary-basic" placeholder="Enter basic amount" required min="0" oninput="calculateTotalSalaryPreview()">
+                        </div>
+                        <div class="input-group">
+                            <label for="salary-bonus"><i class="fa-solid fa-gift"></i> Bonus ($)</label>
+                            <input type="number" step="0.01" id="salary-bonus" placeholder="Enter bonus details" required min="0" oninput="calculateTotalSalaryPreview()">
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label><i class="fa-solid fa-sack-dollar"></i> Total Salary Preview ($)</label>
+                        <input type="text" id="salary-total-preview" readonly style="background: rgba(16, 185, 129, 0.05); color: var(--success); font-weight: 700; border-color: rgba(16, 185, 129, 0.2);">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('salary-modal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Update Salary</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- DYNAMIC CONFIRMATION MODAL -->
+    <div class="modal-overlay" id="confirm-modal">
+        <div class="modal-card confirm-card">
+            <div class="confirm-icon">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+            <h3 id="confirm-title">Are you sure?</h3>
+            <p id="confirm-message">This action cannot be undone.</p>
+            <div class="confirm-actions">
+                <button class="btn btn-secondary" onclick="closeModal('confirm-modal')">Cancel</button>
+                <button class="btn btn-primary" id="confirm-yes-btn" style="background: var(--danger); box-shadow: 0 4px 15px rgba(239, 68, 68, 0.25);">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JS Logic -->
+    <script src="js/app.js"></script>
+</body>
+</html>
