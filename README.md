@@ -59,7 +59,7 @@ You can use any cloud PostgreSQL provider (such as [Neon.tech](https://neon.tech
    - `DATABASE_USERNAME`: Your database username.
    - `DATABASE_PASSWORD`: Your database password.
    - `PORT`: `8080` (Render will map this port automatically).
-7. Deploy the Web Service. Once active, copy the live URL provided by Render (e.g., `https://employee-management-backend.onrender.com`).
+7. Deploy the Web Service. Once active, copy the live URL provided by Render (e.g., `https://employee-management-system-tz8t.onrender.com`).
 
 ---
 
@@ -70,7 +70,7 @@ You can use any cloud PostgreSQL provider (such as [Neon.tech](https://neon.tech
    - **Root Directory**: `frontend` (Or set it as the build folder)
    - **Build Command**: Leave blank (no build tool needed, it's vanilla HTML/JS!)
    - **Publish Directory**: `.` (which points to the `frontend` folder)
-4. Deploy the site. Copy your deployed frontend URL (e.g., `https://employee-management-system.vercel.app`).
+4. Deploy the site. Copy your deployed frontend URL (e.g., `https://employee-management-system-xi-mauve.vercel.app`).
 
 ---
 
@@ -78,7 +78,7 @@ You can use any cloud PostgreSQL provider (such as [Neon.tech](https://neon.tech
 To prevent hardcoded links and allow you to test both local and production environments instantly, a **Settings panel** is integrated directly into the login screen:
 1. Open your deployed Vercel/Netlify website link in the browser.
 2. Click the **Gear icon (⚙️)** in the top right corner of the glassmorphism login card.
-3. Enter your deployed Render API URL (e.g., `https://employee-management-backend.onrender.com`).
+3. Enter your deployed Render API URL (e.g., `https://employee-management-system-tz8t.onrender.com`).
 4. Click the checkmark to save.
 5. Register a new Admin, log in, and begin managing your company data! The frontend will store this URL in your browser's `localStorage` and route all API calls (Employees, Departments, Salaries) directly to your Render backend.
 
